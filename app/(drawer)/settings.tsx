@@ -4,7 +4,19 @@ import React from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 const Settings = () => {
-  const { currentTheme, setTheme, colors } = useTheme();
+  const { currentTheme, setTheme, colors, useSystemTheme, isLoaded } = useTheme();
+
+  if (!isLoaded) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        <View style={styles.loadingContainer}>
+          <Text style={[styles.loadingText, { color: colors.text }]}>
+            Loading...
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -58,12 +70,12 @@ const Settings = () => {
             onPress={() => setTheme("dark")}
             isActive={currentTheme === "dark"}
           />
-            {/* <SettingButtons
-              title="System Mode"
-              icon="weather-night"
-              onPress={() => setTheme("dark")}
-              isActive={currentTheme === "dark"}
-            /> */}
+          <SettingButtons
+            title="System Mode"
+            icon="theme-light-dark"
+            onPress={() => useSystemTheme()}
+            isActive={false}
+          />
         </View>
       </View>
     </View>
@@ -117,6 +129,15 @@ const styles = StyleSheet.create({
   },
   themeToggleText: {
     fontSize: 16,
+    fontWeight: "500",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 18,
     fontWeight: "500",
   },
 });

@@ -1,8 +1,15 @@
 import { useTheme } from "@/context/theme-context";
 import { Drawer } from "expo-router/drawer";
+import { StyleSheet, View } from "react-native";
 
 export default function Layout() {
-  const { colors } = useTheme();
+  const { colors, isLoaded } = useTheme();
+
+  if (!isLoaded) {
+    return (
+      <View style={[styles.loadingContainer, { backgroundColor: colors.background }]} />
+    );
+  }
 
   return (
     <Drawer
@@ -54,3 +61,9 @@ export default function Layout() {
     </Drawer>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+  },
+});
