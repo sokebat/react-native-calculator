@@ -1,16 +1,13 @@
-import { Colors } from "@/utils/colors";
+import { useTheme } from "@/context/theme-context";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "./button";
 
 const Calculator = () => {
+  const { colors } = useTheme();
   const [firstValue, setFirstValue] = useState("");
   const [displayValue, setDisplayValue] = useState("0");
   const [operator, setOperator] = useState("");
-
-  console.log(firstValue, 'firstValue');
-  console.log(displayValue, 'displayValue');
-  console.log(operator, 'operator');
 
   const handleNumberInput = (num: string) => {
     if (displayValue == "0") {
@@ -61,98 +58,133 @@ const Calculator = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.display}>
-        <Text style={{ fontSize: 30, fontWeight: "300" }}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View
+        style={[
+          styles.display,
+          {
+            backgroundColor: colors.display,
+            borderBottomColor: colors.border,
+          },
+        ]}
+      >
+        <Text style={[styles.expressionText, { color: colors.textSecondary }]}>
           {firstValue + operator}
         </Text>
-        <Text style={{ fontSize: 70, fontWeight: "300" }}>{displayValue}</Text>
+        <Text style={[styles.resultText, { color: colors.text }]}>
+          {displayValue}
+        </Text>
       </View>
-      <View style={styles.keypad}>
-        <Button title="C" type="top" onPress={handleClear} />
-        <Button title="⌫" type="top" onPress={handleDelete} />
-        <Button title="%" type="top" onPress={() => handleOperatorInput("%")} />
-        <Button
-          title="÷"
-          type="right"
-          onPress={() => handleOperatorInput("/")}
-        />
-        <Button
-          title="7"
-          type="number"
-          onPress={() => handleNumberInput("7")}
-        />
-        <Button
-          title="8"
-          type="number"
-          onPress={() => handleNumberInput("8")}
-        />
-        <Button
-          title="9"
-          type="number"
-          onPress={() => handleNumberInput("9")}
-        />
-        <Button
-          title="x"
-          type="right"
-          onPress={() => handleOperatorInput("*")}
-        />
-        <Button
-          title="6"
-          type="number"
-          onPress={() => handleNumberInput("6")}
-        />
-        <Button
-          title="5"
-          type="number"
-          onPress={() => handleNumberInput("5")}
-        />
-        <Button
-          title="4"
-          type="number"
-          onPress={() => handleNumberInput("4")}
-        />
-        <Button
-          title="-"
-          type="right"
-          onPress={() => handleOperatorInput("-")}
-        />
-        <Button
-          title="1"
-          type="number"
-          onPress={() => handleNumberInput("1")}
-        />
-        <Button
-          title="2"
-          type="number"
-          onPress={() => handleNumberInput("2")}
-        />
-        <Button
-          title="3"
-          type="number"
-          onPress={() => handleNumberInput("3")}
-        />
-        <Button
-          title="+"
-          type="right"
-          onPress={() => handleOperatorInput("+")}
-        />
-        <Button
-          title="0"
-          type="number"
-          onPress={() => handleNumberInput("0")}
-        />
-        <Button
-          title="00"
-          type="number"
-          onPress={() => handleNumberInput("00")}
-        />
-        <Button
-          title="."
-          type="number"
-          onPress={() => handleNumberInput(".")}
-        />
-        <Button title="=" type="right" onPress={handleCalculation} />
+      <View
+        style={[
+          styles.keypad,
+          {
+            backgroundColor: colors.keypad,
+          },
+        ]}
+      >
+        <View style={styles.buttonRow}>
+          <Button title="C" type="top" onPress={handleClear} />
+          <Button title="⌫" type="top" onPress={handleDelete} />
+          <Button
+            title="%"
+            type="top"
+            onPress={() => handleOperatorInput("%")}
+          />
+          <Button
+            title="÷"
+            type="right"
+            onPress={() => handleOperatorInput("/")}
+          />
+        </View>
+
+        <View style={styles.buttonRow}>
+          <Button
+            title="7"
+            type="number"
+            onPress={() => handleNumberInput("7")}
+          />
+          <Button
+            title="8"
+            type="number"
+            onPress={() => handleNumberInput("8")}
+          />
+          <Button
+            title="9"
+            type="number"
+            onPress={() => handleNumberInput("9")}
+          />
+          <Button
+            title="×"
+            type="right"
+            onPress={() => handleOperatorInput("*")}
+          />
+        </View>
+
+        <View style={styles.buttonRow}>
+          <Button
+            title="4"
+            type="number"
+            onPress={() => handleNumberInput("4")}
+          />
+          <Button
+            title="5"
+            type="number"
+            onPress={() => handleNumberInput("5")}
+          />
+          <Button
+            title="6"
+            type="number"
+            onPress={() => handleNumberInput("6")}
+          />
+          <Button
+            title="-"
+            type="right"
+            onPress={() => handleOperatorInput("-")}
+          />
+        </View>
+
+        <View style={styles.buttonRow}>
+          <Button
+            title="1"
+            type="number"
+            onPress={() => handleNumberInput("1")}
+          />
+          <Button
+            title="2"
+            type="number"
+            onPress={() => handleNumberInput("2")}
+          />
+          <Button
+            title="3"
+            type="number"
+            onPress={() => handleNumberInput("3")}
+          />
+          <Button
+            title="+"
+            type="right"
+            onPress={() => handleOperatorInput("+")}
+          />
+        </View>
+
+        <View style={styles.buttonRow}>
+          <Button
+            title="0"
+            type="number"
+            onPress={() => handleNumberInput("0")}
+          />
+          <Button
+            title="00"
+            type="number"
+            onPress={() => handleNumberInput("00")}
+          />
+          <Button
+            title="."
+            type="number"
+            onPress={() => handleNumberInput(".")}
+          />
+          <Button title="=" type="right" onPress={handleCalculation} />
+        </View>
       </View>
     </View>
   );
@@ -166,19 +198,34 @@ const styles = StyleSheet.create({
   },
   display: {
     flex: 0.5,
-    backgroundColor: Colors.gray,
-    paddingVertical: 5,
-    paddingHorizontal: 40,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
     alignItems: "flex-end",
     justifyContent: "flex-end",
+    borderBottomWidth: 1,
+  },
+  expressionText: {
+    fontSize: 24,
+    fontWeight: "400",
+    marginBottom: 5,
+    opacity: 0.7,
+  },
+  resultText: {
+    fontSize: 48,
+    fontWeight: "300",
+    lineHeight: 56,
   },
   keypad: {
     flex: 2,
-    backgroundColor: Colors.light,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    justifyContent: "space-evenly",
+  },
+  buttonRow: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 30,
-   
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+    gap: 15,
   },
 });
